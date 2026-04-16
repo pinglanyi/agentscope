@@ -12,7 +12,7 @@ agent_card = AgentCard(
         push_notifications=False,
         state_transition_history=True,
         streaming=True,
-        extensions=[get_a2ui_agent_extension(version="0.9")],
+        extensions=[get_a2ui_agent_extension(version="0.8")],
     ),
     default_input_modes=["text/plain"],
     default_output_modes=["text/plain"],

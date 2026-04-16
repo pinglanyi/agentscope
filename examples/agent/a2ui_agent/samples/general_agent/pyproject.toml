@@ -26,8 +26,11 @@ packages = ["."]
 allow-direct-references = true
 
 [tool.uv.sources]
-a2ui-agent-sdk = { path = "/home/wangzilong/A2UI/agent_sdks/python" }
+a2ui-agent-sdk = { path = "../../../../../vendor/A2UI/agent_sdks/python" }
 agentscope = { path = "../../../../../" }
 
 [tool.uv]
 environments = ["python_full_version < '3.14'"]
+[[tool.uv.index]]
+url = "https://pypi.tuna.tsinghua.edu.cn/simple"
+default = true
