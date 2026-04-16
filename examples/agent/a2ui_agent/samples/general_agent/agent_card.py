@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """The agent card definition for the A2A agent."""
 from a2a.types import AgentCard, AgentCapabilities, AgentSkill
-from a2ui.extension.a2ui_extension import get_a2ui_agent_extension
+from a2ui.a2a.extension import get_a2ui_agent_extension
 
 agent_card = AgentCard(
     name="Friday",
@@ -12,7 +12,7 @@ agent_card = AgentCard(
         push_notifications=False,
         state_transition_history=True,
         streaming=True,
-        extensions=[get_a2ui_agent_extension()],
+        extensions=[get_a2ui_agent_extension(version="0.9")],
     ),
     default_input_modes=["text/plain"],
     default_output_modes=["text/plain"],

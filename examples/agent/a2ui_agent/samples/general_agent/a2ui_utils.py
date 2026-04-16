@@ -4,6 +4,7 @@ import json
 from typing import Any
 from pydantic import BaseModel
 from pydantic import Field
+from a2ui.a2a.extension import A2UI_EXTENSION_BASE_URI, try_activate_a2ui_extension
 
 from a2a.types import (
     DataPart,
@@ -11,10 +12,10 @@ from a2a.types import (
     Message,
     Part,
 )
-from a2ui.extension.a2ui_extension import (
+from a2ui.a2a.parts import (
     A2UI_MIME_TYPE,
     MIME_TYPE_KEY,
-    A2UI_EXTENSION_URI,
+
 )
 
 from agentscope._logging import logger
@@ -55,11 +56,11 @@ def check_a2ui_extension(*args: Any) -> bool:
         return False
 
     # Check if A2UI extension is requested
-    if A2UI_EXTENSION_URI in context.requested_extensions:
+    if A2UI_EXTENSION_BASE_URI in context.requested_extensions:
         # Activate the extension if add_activated_extension method exists
         if hasattr(context, "add_activated_extension"):
-            context.add_activated_extension(A2UI_EXTENSION_URI)
-            logger.info("A2UI extension activated: %s", A2UI_EXTENSION_URI)
+            context.add_activated_extension(A2UI_EXTENSION_BASE_URI)
+            logger.info("A2UI extension activated: %s", A2UI_EXTENSION_BASE_URI)
         else:
             logger.warning(
                 "check_a2ui_extension: Context does not have "

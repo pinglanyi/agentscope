@@ -5,7 +5,7 @@ from a2a.types import AgentCard, AgentCapabilities, AgentSkill
 agent_card = AgentCard(
     name="Friday",
     description="A simple ReAct agent that handles input queries",
-    url="http://localhost:8000",
+    url="http://localhost:8001",
     version="1.0.0",
     capabilities=AgentCapabilities(
         push_notifications=False,

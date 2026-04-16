@@ -1,24 +1,17 @@
-
 [project]
 name = "agentscope"
 dynamic = ["version"]
 description = "AgentScope: A Flexible yet Robust Multi-Agent Platform."
 readme = "README.md"
+
 authors = [
     { name = "SysML team of Alibaba Tongyi Lab", email = "gaodawei.gdw@alibaba-inc.com" }
 ]
+
 license = "Apache-2.0"
-keywords = ["deep-learning", "multi agents", "agents"]
-classifiers = [
-    "Development Status :: 4 - Beta",
-    "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
-    "Operating System :: OS Independent",
-    "Intended Audience :: Developers",
-    "Intended Audience :: Science/Research",
-    "Topic :: Scientific/Engineering :: Artificial Intelligence",
-]
-requires-python = ">=3.10"
+
+requires-python = ">=3.10,<3.13"
+
 dependencies = [
     "aioitertools",
     "anthropic",
@@ -31,10 +24,10 @@ dependencies = [
     "numpy",
     "openai",
     "python-datauri",
-    "opentelemetry-api>=1.39.0",
-    "opentelemetry-sdk>=1.39.0",
-    "opentelemetry-exporter-otlp>=1.39.0",
-    "opentelemetry-semantic-conventions>=0.60b0",
+    "opentelemetry-api>=1.36.0",
+    "opentelemetry-sdk>=1.36.0",
+    "opentelemetry-exporter-otlp>=1.36.0",
+    "opentelemetry-semantic-conventions>=0.57b0",
     "python-socketio",
     "shortuuid",
     "tiktoken",
@@ -42,37 +35,45 @@ dependencies = [
     "sqlalchemy",
     "python-frontmatter",
     "aiofiles",
+    "a2a>=0.44",
 ]
 
+
 [project.optional-dependencies]
-# ------------ A2A protocol ------------
+
+############ A2A ############
 a2a = [
     "a2a-sdk",
     "httpx",
-    # TODO: split the card resolvers from the a2a dependency
     "nacos-sdk-python>=3.0.0",
 ]
 
-# ------------ Realtime -------------
-realtime = ["websockets>=14.0", "scipy"]
+############ Realtime ############
+realtime = [
+    "websockets>=14.0",
+    "scipy",
+]
 
-# ------------ Model APIs ------------
+############ Models ############
 gemini = ["google-genai"]
+
 ollama = ["ollama>=0.5.4"]
+
 models = [
     "agentscope[ollama]",
     "agentscope[gemini]",
 ]
 
-# ------------ Tokenizers ------------
+############ Tokens ############
 tokens = [
     "Pillow",
     "transformers",
     "jinja2",
 ]
 
-# ------------ Memory ------------
+############ Memory ############
 redis_memory = ["redis"]
+
 tablestore_memory = [
     "tablestore-for-agent-memory",
     "tablestore",
@@ -80,9 +81,13 @@ tablestore_memory = [
 
 mem0ai = [
     "mem0ai<=1.0.3",
-    "packaging"
+    "packaging",
 ]
-reme = ["reme-ai>=0.2.0.3"]
+
+reme = [
+    "reme-ai>=0.2.0.3",
+]
+
 memory = [
     "agentscope[redis_memory]",
     "agentscope[mem0ai]",
@@ -90,61 +95,68 @@ memory = [
     "agentscope[tablestore_memory]",
 ]
 
-# ------------ RAG ------------
-# readers
+############ Readers ############
 text-reader = ["nltk"]
+
 pdf-reader = [
     "agentscope[text-reader]",
-    # TODO: the latest pypdf has some issues with parsing PDFs
-    #  (2026-01-13), so we fix the version here temporarily.
     "pypdf<=6.5.0",
 ]
+
 docx-reader = [
     "agentscope[text-reader]",
-    "python-docx"
+    "python-docx",
 ]
+
 excel-reader = [
     "agentscope[text-reader]",
     "pandas",
     "openpyxl",
 ]
+
 ppt-reader = [
     "agentscope[text-reader]",
-    "python-pptx"
+    "python-pptx",
 ]
+
 readers = [
-    "agentscope[text-reader]",
     "agentscope[pdf-reader]",
     "agentscope[docx-reader]",
     "agentscope[excel-reader]",
     "agentscope[ppt-reader]",
 ]
 
-# vdb
-# The qdrant-client >= 1.16.0 has conflicts with pymilvus, so we fix
-# the version to 1.15.1 here.
+############ Vector DB ############
 qdrant = ["qdrant-client==1.15.1"]
+
 milvus = ["pymilvus[milvus_lite]==2.6.2"]
+
 ali_mysql = ["mysql-connector-python"]
+
 mongodb = ["pymongo"]
+
 oceanbase = ["pyobvector>=0.2.0,<0.3.0"]
+
 vdbs = [
-    "agentscope[ali_mysql]",
     "agentscope[qdrant]",
     "agentscope[milvus]",
+    "agentscope[ali_mysql]",
     "agentscope[mongodb]",
     "agentscope[oceanbase]",
 ]
 
+############ RAG ############
 rag = [
     "agentscope[readers]",
     "agentscope[vdbs]",
 ]
 
-# ------------ Evaluation ------------
-evaluate = ["ray"]
+############ Evaluate ############
+evaluate = [
+    "ray",
+]
 
-# ------------ Tuner ------------
+############ Tuner ############
 tuner = [
     "dspy>=3.1.0",
     "datasets>=4.0.0",
@@ -155,10 +167,15 @@ tuner-gpu = [
     "trinity-rft>=0.5.0",
     "dspy>=3.1.0",
     "datasets>=4.0.0",
-    "litellm[proxy]>=1.75.3"
+    "litellm[proxy]>=1.75.3",
 ]
 
-# ------------ Full ------------
+############ Judge（单独拆出来）############
+judge = [
+    "py-openjudge",
+]
+
+############ Full ############
 full = [
     "agentscope[a2a]",
     "agentscope[models]",
@@ -169,45 +186,51 @@ full = [
     "agentscope[realtime]",
 ]
 
-# ------------ Development ------------
+############ Dev（不再包含 judge）############
 dev = [
-    # Include full dependencies from local package
     "agentscope[full]",
-    # Development tools
+
     "pre-commit",
     "pytest",
     "pytest-asyncio",
     "pytest-forked",
+
     "sphinx-gallery",
     "furo",
     "myst_parser",
+
     "matplotlib",
-    # For unittests
-    # For mocking redis in unittests
+
     "fakeredis",
     "aiosqlite",
     "greenlet",
-    # For openjudge
-    "py-openjudge",
-    # For tuner
+
     "dspy",
 ]
 
-[project.urls]
-Homepage = "https://github.com/agentscope-ai/agentscope"
-Documentation = "https://doc.agentscope.io/"
-Repository = "https://github.com/agentscope-ai/agentscope"
 
-[tool.setuptools]
-packages = { find = { where = ["src"] } }
-include-package-data = true
+[tool.uv]
 
-[tool.setuptools.package-data]
-"*" = ["py.typed"]
+environments = [
+    "sys_platform == 'linux'"
+]
+
+conflicts = [
+    [
+        { extra = "judge" },
+        { extra = "tuner-gpu" }
+    ],
+    [
+        { extra = "dev" },
+        { extra = "tuner-gpu" }
+    ]
+]
+
 
 [build-system]
 requires = ["setuptools>=45", "wheel"]
 build-backend = "setuptools.build_meta"
+
 
 [tool.setuptools.dynamic]
 version = {attr = "agentscope._version.__version__"}
