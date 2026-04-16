@@ -1,0 +1,3 @@
+[submodule "vendor/A2UI"]
+	path = vendor/A2UI
+	url = https://github.com/google/A2UI.git
